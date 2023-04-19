@@ -35,6 +35,49 @@ public final class SampleAppKeys {
             (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
             (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
             (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00};
+
+    /**
+     * 24 byte long key where only the first bytes will be used if the key type requires a shorter key
+     */
+    public static final byte[] KEY_AES128_PICC_APP_DEFAULT_KEY = {(byte) 0xAA, (byte) 0xFF,
+            (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF,
+            (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF,
+            (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF,
+            (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF,
+            (byte) 0xFF, (byte) 0xFF};
+
+    /**
+     * 16 bytes AES128 Key DAMKEY ENC.
+     */
+    public static final byte[] KEY_AES128_PICC_DAM_ENC = {(byte) 0xBB, (byte) 0xFF,
+            (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF,
+            (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF,
+            (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF};
+
+    /**
+     * 16 bytes AES128 Key DAMKEY MAC.
+     */
+    public static final byte[] KEY_AES128_PICC_DAM_MAC = {(byte) 0xCC, (byte) 0xFF,
+            (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF,
+            (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF,
+            (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF};
+
+    /**
+     * 16 bytes AES128 Key DAMKEY AUTH.
+     */
+    public static final byte[] KEY_AES128_PICC_DAM_AUTH = {(byte) 0xDD, (byte) 0xFF,
+            (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF,
+            (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF,
+            (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF};
+
+    /**
+     * 16 bytes AES128 Key PICC MASTER KEY.
+     */
+    public static final byte[] KEY_AES128_PICC_MASTER = {(byte) 0xEE, (byte) 0xFF,
+            (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF,
+            (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF,
+            (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF};
+
     /**
      * 24 bytes 2KTDES Key.
      */
