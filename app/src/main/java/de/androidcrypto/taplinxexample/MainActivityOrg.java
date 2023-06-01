@@ -70,9 +70,7 @@ import com.nxp.nfclib.desfire.EV3ApplicationKeySettings;
 import com.nxp.nfclib.desfire.IDESFireEV1;
 import com.nxp.nfclib.desfire.IDESFireEV2;
 import com.nxp.nfclib.desfire.IDESFireEV3;
-import com.nxp.nfclib.exceptions.InvalidResponseLengthException;
 import com.nxp.nfclib.exceptions.NxpNfcLibException;
-import com.nxp.nfclib.exceptions.UsageException;
 import com.nxp.nfclib.icode.ICode;
 import com.nxp.nfclib.icode.ICodeFactory;
 import com.nxp.nfclib.icode.IICodeDNA;
@@ -112,14 +110,15 @@ import com.nxp.nfclib.ultralight.IUltralightNano;
 import com.nxp.nfclib.ultralight.UltralightFactory;
 import com.nxp.nfclib.utils.NxpLogUtils;
 import com.nxp.nfclib.utils.Utilities;
+
 import java.io.File;
 import java.nio.charset.Charset;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
-import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Locale;
+
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -132,7 +131,7 @@ import javax.crypto.spec.SecretKeySpec;
 /**
  * @author nxp70496 Main start activity.
  */
-public class MainActivity extends Activity {
+public class MainActivityOrg extends Activity {
 
     public static final String TAG = "SampleTapLinx";
 
@@ -344,11 +343,11 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
 
-        boolean readPermission = (ContextCompat.checkSelfPermission(MainActivity.this,
+        boolean readPermission = (ContextCompat.checkSelfPermission(MainActivityOrg.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
 
         if (!readPermission) {
-            ActivityCompat.requestPermissions(MainActivity.this,
+            ActivityCompat.requestPermissions(MainActivityOrg.this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_WRITE
             );
         }
@@ -460,7 +459,7 @@ public class MainActivity extends Activity {
 
                 if (!bWriteAllowed) {
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(
-                            MainActivity.this);
+                            MainActivityOrg.this);
                     alertDialog.setCancelable(false);
 
                     // Setting Dialog Title
@@ -882,7 +881,7 @@ public class MainActivity extends Activity {
                 showMessage("DESFireEV3 Card detected.", 't');
                 tv.setText(" ");
                 showImageSnap(R.drawable.desfire_ev2);
-                showMessage("Card Detected : DESFireEV3", 'a');
+                showMessage("Card Detected : DESFireEV3", 'n');
                 desFireEV3 = DESFireFactory.getInstance().getDESFireEV3(libInstance.getCustomModules());
                 try {
                     desFireEV3.getReader().connect();
@@ -1656,8 +1655,6 @@ public class MainActivity extends Activity {
 
         try {
             desFireEV3.getReader().setTimeout(timeOut);
-
-            /*
             showMessage(
                     "Version of the Card : "
                             + Utilities.dumpBytes(desFireEV3.getVersion()),
@@ -1670,57 +1667,17 @@ public class MainActivity extends Activity {
 
 
             //desFireEV2.selectApplication(0);
-*/
-            //desFireEV3.authenticate(0, IDESFireEV3.AuthType.Native, KeyType.THREEDES, objKEY_2KTDES);
+
             desFireEV3.authenticate(0, IDESFireEV3.AuthType.Native, KeyType.THREEDES, objKEY_2KTDES);
             showMessage("authentication on MasterApplication done", 'd');
-            showMessage("authStatus: " + desFireEV3.getAuthStatus(), 'n');
-
-            showMessage("Start Proximity Check preparations", 'n');
 
             // old/unused key
             byte[] AES_KEY_ZERO = hexStringToByteArray("00000000000000000000000000000000"); // 16 byte
             KeyData objKEY_AES128ZERO = new KeyData();
             SecretKeySpec secretKeySpecZero = new SecretKeySpec(AES_KEY_ZERO, "AES");
             objKEY_AES128ZERO.setKey(secretKeySpecZero);
+
             byte newKeyVersion = (byte) 0x00;
-
-            showMessage("AES_KEY_ZERO: " + bytesToHexNpe(objKEY_AES128ZERO.getKey().getEncoded()), 'n');
-
-            showMessage("step 01 authenticate Master Application done", 'n');
-/*
-            showMessage("step 01b getKeyVersion VC key 0x20", 'n');
-            int keyVersion = desFireEV3.getKeyVersionFor(32);
-            showMessage("step 01b getKeyVersion VC key 0x20 is " + keyVersion, 'n');
-*/
-            showMessage("step 02 change VC configuration key (0x20)", 'n');
-            try {
-                desFireEV3.changeKey(32, KeyType.AES128, new byte[16], new byte[16], newKeyVersion);
-                //desFireEV3.changeVCKey(32, new byte[16], new byte[16], newKeyVersion);
-                showMessage("step 02 change VC configuration key (0x20) done", 'n');
-            } catch (UsageException e) {
-                showMessage("UsageException: " + e.getMessage(), 'n');
-            } catch (InvalidResponseLengthException e) {
-                showMessage("InvalidResponseLengthException: " + e.getMessage(), 'n');
-            } catch (Exception e) {
-                showMessage("Exception: " + e.getMessage(), 'n');
-            }
-
-            showMessage("step 03 authenticate VC configuration key (0x20)", 'n');
-            try {
-            desFireEV3.authenticate(32, IDESFireEV3.AuthType.AES, KeyType.AES128, objKEY_AES128ZERO);
-            showMessage("step 03 authenticate VC configuration key (0x20) done", 'n');
-            } catch (UsageException e) {
-                showMessage("UsageException: " + e.getMessage(), 'n');
-            } catch (InvalidResponseLengthException e) {
-                showMessage("InvalidResponseLengthException: " + e.getMessage(), 'n');
-            } catch (Exception e) {
-                showMessage("Exception: " + e.getMessage(), 'n');
-            }
-
-
-
-/*
             byte[] AES_KEY_VC22 = hexStringToByteArray("AA000000000000000000000000000000"); // 16 byte
             KeyData objKEY_AES128New = new KeyData();
             SecretKeySpec secretKeySpecNew = new SecretKeySpec(AES_KEY_VC22, "AES");
@@ -1769,7 +1726,7 @@ public class MainActivity extends Activity {
             showMessage("proximityCheckEV3 objKEY_AES128AA before", 'd');
             desFireEV3.proximityCheckEV3(objKEY_AES128AA, 1);
             showMessage("proximityCheckEV3 objKEY_AES128AA done", 'd');
-*/
+
 /*
 Prepare DESFire EV3 for Proximity Check
 
@@ -1994,12 +1951,9 @@ pdCap2_2 - Proximity device capability data 2.2
  */
 
         } catch (Exception e) {
-            showMessage("IOException occurred... check LogCat", 'n');
-            showMessage("Exception: " + e.getMessage(), 'n');
+            showMessage("IOException occurred... check LogCat", 't');
             e.printStackTrace();
         }
-
-
     }
 
     private void desfireEV3CardLogicOriginal() {
@@ -2934,7 +2888,7 @@ pdCap2_2 - Proximity device capability data 2.2
         switch (where) {
 
             case 't':
-                Toast.makeText(MainActivity.this, "\n" + str, Toast.LENGTH_SHORT)
+                Toast.makeText(MainActivityOrg.this, "\n" + str, Toast.LENGTH_SHORT)
                         .show();
                 break;
             case 'l':
@@ -2945,7 +2899,7 @@ pdCap2_2 - Proximity device capability data 2.2
                         + str);
                 break;
             case 'a':
-                Toast.makeText(MainActivity.this, "\n" + str, Toast.LENGTH_SHORT)
+                Toast.makeText(MainActivityOrg.this, "\n" + str, Toast.LENGTH_SHORT)
                         .show();
                 NxpLogUtils.i(TAG, "\n" + str);
                 tv.setText(tv.getText() + "\n-----------------------------------\n"
@@ -3014,7 +2968,7 @@ pdCap2_2 - Proximity device capability data 2.2
      */
     private void showDisclaimer() {
 
-        AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+        AlertDialog.Builder alert = new AlertDialog.Builder(MainActivityOrg.this);
         alert.setTitle("About");
         alert.setCancelable(false);
         String[] cards = libInstance.getSupportedCards();
@@ -3068,10 +3022,10 @@ pdCap2_2 - Proximity device capability data 2.2
         switch (requestCode) {
             case STORAGE_PERMISSION_WRITE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(MainActivity.this, "Requested permission granted", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivityOrg.this, "Requested permission granted", Toast.LENGTH_LONG).show();
 
                 } else {
-                    Toast.makeText(MainActivity.this, "The app was not allowed to write to your storage. Hence, it cannot function properly. Please consider granting it this permission", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivityOrg.this, "The app was not allowed to write to your storage. Hence, it cannot function properly. Please consider granting it this permission", Toast.LENGTH_LONG).show();
                 }
                 break;
             }
