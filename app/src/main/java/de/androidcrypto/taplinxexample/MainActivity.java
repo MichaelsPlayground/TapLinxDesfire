@@ -489,16 +489,6 @@ public class MainActivity extends Activity {
     }
 
     private void desfireEV3SetVcConfigurationKey() {
-        int timeOut = 2000;
-
-        // keys
-        byte NEW_KEY_VERSION = (byte) 0x00;
-        // DES
-        byte[] TDES_KEY_ZERO = hexStringToByteArray("00000000000000000000000000000000"); // 16 byte
-        KeyData objKEY_TDES128ZERO = new KeyData();
-        SecretKeySpec secretKeySpecTDesZero = new SecretKeySpec(TDES_KEY_ZERO, "DES");
-        objKEY_TDES128ZERO.setKey(secretKeySpecTDesZero);
-
         // AES
         byte[] AES_KEY_ZERO = hexStringToByteArray("00000000000000000000000000000000"); // 16 byte
         KeyData objKEY_AES128ZERO = new KeyData();
@@ -510,23 +500,22 @@ public class MainActivity extends Activity {
         showMessage("Card Detected : " + desFireEV3.getType().getTagName(), 'n');
         showMessage("Set VC Configuration key (0x20)", 'n');
         try {
+            int timeOut = 2000;
             desFireEV3.getReader().setTimeout(timeOut);
             // select master application
-            //desFireEV3.selectApplication(0);
+            desFireEV3.selectApplication(0);
             // authenticate the master application with the PICC Master Key
-            //desFireEV3.authenticate(0, IDESFireEV3.AuthType.Native, KeyType.THREEDES, objKEY_TDES128ZERO);
-            //showMessage("authentication on MasterApplication done", 'd');
-            //showMessage("authStatus: " + desFireEV3.getAuthStatus(), 'n');
-
-            // authenticate with the default VC Configuration key
-            //desFireEV3.authenticate(32, IDESFireEV1.AuthType.AES, KeyType.AES128, objKEY_AES128ZERO);
-            desFireEV3.authenticateEV2First(32, objKEY_AES128ZERO, new byte[]{0, 0, 0, 0, 0, 0});
-
+            // DES default key
+            byte[] TDES_KEY_ZERO = new byte[16]; // 16 bytes
+            KeyData objKEY_TDES128ZERO = new KeyData();
+            SecretKeySpec secretKeySpecTDesZero = new SecretKeySpec(TDES_KEY_ZERO, "TDES");
+            objKEY_TDES128ZERO.setKey(secretKeySpecTDesZero);
+            desFireEV3.authenticate(0, IDESFireEV3.AuthType.Native, KeyType.THREEDES, objKEY_TDES128ZERO);
             showMessage("authStatus 32: " + desFireEV3.getAuthStatus(), 'n');
 
             showMessage("change VC Configuration key (0x20)", 'n');
             try {
-                //desFireEV3.changeKey(32, KeyType.AES128, new byte[16], new byte[16], NEW_KEY_VERSION);
+                byte NEW_KEY_VERSION = (byte) 0x00;
                 desFireEV3.changeVCKey(32, new byte[16], new byte[16], NEW_KEY_VERSION);
                 showMessage("change VC Configuration key (0x20) done", 'n');
             } catch (UsageException e) {
@@ -539,6 +528,13 @@ public class MainActivity extends Activity {
 
 
 
+            //showMessage("authentication on MasterApplication done", 'd');
+            //showMessage("authStatus: " + desFireEV3.getAuthStatus(), 'n');
+
+            // authenticate with the default VC Configuration key
+            //desFireEV3.authenticate(32, IDESFireEV1.AuthType.AES, KeyType.AES128, objKEY_AES128ZERO);
+            //desFireEV3.authenticateEV2First(32, objKEY_AES128ZERO, new byte[]{0, 0, 0, 0, 0, 0});
+            //desFireEV3.changeKey(32, KeyType.AES128, new byte[16], new byte[16], NEW_KEY_VERSION);
 
         } catch (Exception e) {
             showMessage("IOException occurred... check LogCat", 'n');
