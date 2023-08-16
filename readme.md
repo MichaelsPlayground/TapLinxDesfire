@@ -18,4 +18,4 @@ https://www.mifare.net/support/forum/forum/taplinx-developers/
 
 https://community.nxp.com
 
-
+This version has an added card logic for NTAG424DNA tags including AES and LRP authenticateFirst usage
