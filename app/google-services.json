@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "594878583199",
+    "project_id": "taplinxexample",
+    "storage_bucket": "taplinxexample.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:594878583199:android:3dcdabf86cb1dcfb3e2daa",
+        "android_client_info": {
+          "package_name": "de.androidcrypto.taplinxexample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "594878583199-7s0g3r7ol65qtu09ob1okf1dhkl4adp7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "de.androidcrypto.taplinxexample",
+            "certificate_hash": "1922a4d701a83d098f0493e98e21922d5a5fb054"
+          }
+        },
+        {
+          "client_id": "594878583199-6cn4b6d4qb0hbbv2v78cg67etml8ugds.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvW2JDBh1nGOftmT20HLctHfn2uVGzCiE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "594878583199-6cn4b6d4qb0hbbv2v78cg67etml8ugds.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

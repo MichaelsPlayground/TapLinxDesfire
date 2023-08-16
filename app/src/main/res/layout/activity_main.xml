@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:background="@drawable/app_bkgnd"
-    tools:context=".MainActivity" >
+    tools:context="com.nxp.sampletaplinx.MainActivity" >
 
     <CheckBox
         android:id="@+id/checkToWrite"
