@@ -83,6 +83,7 @@ import com.nxp.nfclib.icode.IICodeSLIX2;
 import com.nxp.nfclib.icode.IICodeSLIXL;
 import com.nxp.nfclib.icode.IICodeSLIXS;
 import com.nxp.nfclib.interfaces.IKeyData;
+import com.nxp.nfclib.interfaces.IReader;
 import com.nxp.nfclib.ndef.NdefMessageWrapper;
 import com.nxp.nfclib.ndef.NdefRecordWrapper;
 import com.nxp.nfclib.ntag.INTAGI2Cplus;
